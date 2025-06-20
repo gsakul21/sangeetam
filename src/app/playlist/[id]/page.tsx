@@ -60,6 +60,29 @@ const PlaylistCover = ({ name, isExpanded = false }: { name: string; isExpanded?
   );
 };
 
+// SVGs for platform logos
+const SpotifyLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#1DB954"/>
+    <path d="M17.25 16.13c-.29 0-.47-.09-.67-.22-1.82-1.12-4.11-1.37-6.81-.74-.32.07-.63-.13-.7-.45-.07-.32.13-.63.45-.7 2.97-.68 5.48-.4 7.5.84.29.18.38.56.2.85-.12.19-.32.3-.53.3zm.93-2.36c-.36 0-.57-.13-.77-.25-2.08-1.27-5.25-1.64-7.7-.89-.39.11-.8-.11-.91-.5-.11-.39.11-.8.5-.91 2.77-.82 6.26-.41 8.62 1.03.36.22.47.69.25 1.05-.14.23-.38.37-.62.37zm1.01-2.41c-.44 0-.7-.17-.93-.3-2.38-1.43-6.32-1.56-8.61-.85-.48.14-.99-.13-1.13-.61-.14-.48.13-.99.61-1.13 2.65-.77 7.01-.62 9.77 1.01.45.27.6.86.33 1.31-.18.29-.48.46-.81.46z" fill="#fff"/>
+  </svg>
+);
+const AppleLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#000"/>
+    <path d="M16.68 13.36c-.02-1.6 1.31-2.36 1.37-2.39-.75-1.1-1.92-1.25-2.33-1.27-1-.1-1.95.59-2.46.59-.5 0-1.27-.57-2.09-.56-.98.01-1.89.57-2.39 1.45-1.02 1.77-.26 4.39.73 5.83.49.71 1.07 1.5 1.84 1.47.74-.03 1.02-.48 1.91-.48.89 0 1.14.48 1.92.47.79-.01 1.29-.72 1.77-1.43.56-.81.79-1.6.8-1.64-.02-.01-1.53-.59-1.55-2.34zm-1.47-4.36c.45-.54.76-1.29.68-2.04-.66.03-1.45.44-1.92.98-.42.48-.79 1.25-.65 1.99.7.05 1.44-.39 1.89-.93z" fill="#fff"/>
+  </svg>
+);
+const TidalLogo = () => (
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="12" fill="#000"/>
+    <rect x="6.5" y="10.5" width="3" height="3" transform="rotate(45 8 12)" fill="#fff"/>
+    <rect x="14.5" y="10.5" width="3" height="3" transform="rotate(45 16 12)" fill="#fff"/>
+    <rect x="10.5" y="6.5" width="3" height="3" transform="rotate(45 12 8)" fill="#fff"/>
+    <rect x="10.5" y="14.5" width="3" height="3" transform="rotate(45 12 16)" fill="#fff"/>
+  </svg>
+);
+
 export default function PlaylistPage({ params }: { params: { id: string } }) {
   const [playlist, setPlaylist] = useState<Playlist | null>(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -331,32 +354,37 @@ export default function PlaylistPage({ params }: { params: { id: string } }) {
                 'Export Playlist'
               )}
             </motion.button>
-
             <AnimatePresence>
               {showExportOptions && (
                 <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  className="absolute right-0 mt-2 w-48 bg-zinc-900 rounded-lg shadow-xl border border-zinc-800 overflow-hidden"
+                  initial={{ opacity: 0, x: 40 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 40 }}
+                  className="absolute left-full top-1/2 -translate-y-1/2 ml-4 flex space-x-4 z-20"
                 >
                   <button
                     onClick={() => exportPlaylist('spotify')}
-                    className="w-full px-4 py-2 text-left text-white hover:bg-zinc-800 transition-colors duration-200"
+                    className="flex items-center px-4 py-2 rounded-lg font-medium shadow-lg transition-all duration-200 focus:outline-none"
+                    style={{ background: '#1DB954', color: '#fff' }}
                   >
-                    Export to Spotify
+                    <SpotifyLogo />
+                    <span className="ml-2">Spotify</span>
                   </button>
                   <button
                     onClick={() => exportPlaylist('apple')}
-                    className="w-full px-4 py-2 text-left text-white hover:bg-zinc-800 transition-colors duration-200"
+                    className="flex items-center px-4 py-2 rounded-lg font-medium shadow-lg transition-all duration-200 focus:outline-none"
+                    style={{ background: '#000', color: '#fff' }}
                   >
-                    Export to Apple Music
+                    <AppleLogo />
+                    <span className="ml-2">Apple Music</span>
                   </button>
                   <button
                     onClick={() => exportPlaylist('tidal')}
-                    className="w-full px-4 py-2 text-left text-white hover:bg-zinc-800 transition-colors duration-200"
+                    className="flex items-center px-4 py-2 rounded-lg font-medium shadow-lg transition-all duration-200 focus:outline-none"
+                    style={{ background: '#000', color: '#fff', border: '2px solid #fff' }}
                   >
-                    Export to Tidal
+                    <TidalLogo />
+                    <span className="ml-2">Tidal</span>
                   </button>
                 </motion.div>
               )}

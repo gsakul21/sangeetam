@@ -1,6 +1,7 @@
 import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 interface Song {
   title: string;
@@ -25,7 +26,7 @@ export async function POST(request: Request) {
 
     switch (platform) {
       case 'spotify':
-        return await handleSpotifyExport(songs, name, session);
+        return await handleSpotifyExport(songs, name, session, supabase);
       case 'apple':
         return NextResponse.json({ error: 'Apple Music export not implemented yet' }, { status: 501 });
       case 'tidal':
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
   }
 }
 
-async function handleSpotifyExport(songs: Song[], name: string, session: any) {
+async function handleSpotifyExport(songs: Song[], name: string, session: any, supabase: SupabaseClient) {
   // Get Spotify access token from Supabase
   const { data: spotifyToken } = await supabase
     .from('user_tokens')
